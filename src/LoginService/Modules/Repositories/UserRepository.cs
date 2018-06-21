@@ -2,23 +2,26 @@ using System.Collections.Generic;
 using System.Linq;
 using LoginService.Modules.Models;
 
-public class UserRepository
+namespace LoginService.Modules.Repositories
 {
-    public List<User> TestUsers { get; private set; }
-    public UserRepository()
+    public class UserRepository
     {
-        TestUsers = new List<User>();
-        TestUsers.Add(new User() { Username = "Test1", Password  = "Pass1"});
-        TestUsers.Add(new User() { Username = "Test2", Password = "Pass2"});
-    }
-    public User GetUser(string username)
-    {
-        try
+        public List<User> TestUsers { get; private set; }
+        public UserRepository()
         {
-            return TestUsers.First(user => user.Username.Equals(username));
-        } catch
+            TestUsers = new List<User>();
+            TestUsers.Add(new User() { Username = "Test1", Password  = "Pass1"});
+            TestUsers.Add(new User() { Username = "Test2", Password = "Pass2"});
+        }
+        public User GetUser(string username)
         {
-            return null;
+            try
+            {
+                return TestUsers.First(user => user.Username.Equals(username));
+            } catch
+            {
+                return null;
+            }
         }
     }
 }
