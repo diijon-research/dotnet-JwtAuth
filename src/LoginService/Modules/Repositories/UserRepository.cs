@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using LoginService.Modules.Models;
+using JwtAuth.LoginService.Modules.Models;
 
-namespace LoginService.Modules.Repositories
+namespace JwtAuth.LoginService.Modules.Repositories
 {
     public class UserRepository
     {

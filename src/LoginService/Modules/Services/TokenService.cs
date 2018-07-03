@@ -9,7 +9,7 @@ namespace JwtAuth.LoginService.Modules.Services
     {
         private static string Secret = "g3TkuNgOkSjmGW7yD1w/rI+Saqd1eAmxPid8VQcuJKa1DBz4w3oQyhas1uSm45XMVyW4RBOscbdGzirpfIMukQ==";
 
-        public static string GenerateToken(string username)
+        public string GenerateToken(string username)
         {
             byte[] key = Convert.FromBase64String(Secret);
             var securityKey = new SymmetricSecurityKey(key);
@@ -26,6 +26,7 @@ namespace JwtAuth.LoginService.Modules.Services
         
             var handler = new JwtSecurityTokenHandler();
             var token = handler.CreateJwtSecurityToken(descriptor);
+            token.Payload["extraData"] = "foo";
             return handler.WriteToken(token);
         }
     } 

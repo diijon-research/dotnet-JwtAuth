@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JwtAuth.LoginService.Modules.Repositories;
+using JwtAuth.LoginService.Modules.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace LoginService
+namespace JwtAuth.LoginService
 {
     public class Startup
     {
@@ -26,6 +28,8 @@ namespace LoginService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            ConfigureModules(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +46,12 @@ namespace LoginService
 
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+
+        private void ConfigureModules(IServiceCollection services)
+        {
+            services.AddScoped<UserRepository>();
+            services.AddSingleton<TokenService>();
         }
     }
 }

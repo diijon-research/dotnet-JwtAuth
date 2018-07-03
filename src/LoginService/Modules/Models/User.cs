@@ -1,4 +1,4 @@
-﻿namespace LoginService.Modules.Models
+﻿namespace JwtAuth.LoginService.Modules.Models
 {
     public class User
     {
