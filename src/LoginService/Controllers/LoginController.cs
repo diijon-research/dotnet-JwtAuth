@@ -13,7 +13,7 @@ using JwtAuth.LoginService.Modules.Services;
 
 namespace LoginService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("v1/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -27,7 +27,7 @@ namespace LoginService.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(User user)
+        public IActionResult Login([FromBody]User user)
         {
             var u = _userRepository.GetUser(user.Username);
             if (u == null)
@@ -42,6 +42,24 @@ namespace LoginService.Controllers
             }
 
             return Ok(_tokenService.GenerateToken(user.Username));
+        }
+
+        [HttpPost("validate")]
+        public IActionResult Validate([FromBody]ValidateTokenRequest requestBody)
+        {
+            var user = _userRepository.GetUser(requestBody.Username);
+            if (user == null)
+            {
+                return NotFound("The user was not found.");
+            }
+
+            var tokenUsername = _tokenService.ValidateToken(requestBody.Token);
+            if (!$"{tokenUsername}".Equals(requestBody.Username, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }

@@ -29,5 +29,55 @@ namespace JwtAuth.LoginService.Modules.Services
             token.Payload["extraData"] = "foo";
             return handler.WriteToken(token);
         }
+
+        public ClaimsPrincipal GetPrincipal(string token)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = (JwtSecurityToken)tokenHandler.ReadToken(token);
+                if (jwtToken == null)
+                {
+                    return null;
+                }
+
+                byte[] key = Convert.FromBase64String(Secret);
+                var parameters = new TokenValidationParameters()
+                {
+                    RequireExpirationTime = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+
+                var principal = tokenHandler.ValidateToken(token, parameters, out var securityToken);
+                return principal;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public string ValidateToken(string token)
+        {
+            var principal = GetPrincipal(token);
+            if (principal == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                var identity = (ClaimsIdentity)principal.Identity;
+                var usernameClaim = identity.FindFirst(ClaimTypes.Name);
+                var username = usernameClaim.Value;
+                return username;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     } 
 }

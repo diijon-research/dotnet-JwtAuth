@@ -44,14 +44,14 @@ namespace JwtAuth.LoginService
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseMvc();
         }
 
         private void ConfigureModules(IServiceCollection services)
         {
             services.AddScoped<UserRepository>();
-            services.AddSingleton<TokenService>();
+            services.AddScoped<TokenService>();
         }
     }
 }
