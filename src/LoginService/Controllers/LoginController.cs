@@ -26,6 +26,13 @@ namespace LoginService.Controllers
             _tokenService = tokenService;
         }
 
+        [HttpGet]
+        public IActionResult LogMessage([FromQuery]string message)
+        {
+            _tokenService.LogMessage(message);
+            return Ok();
+        }
+
         [HttpPost]
         public IActionResult Login([FromBody]User user)
         {

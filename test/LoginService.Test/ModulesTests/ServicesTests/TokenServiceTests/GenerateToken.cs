@@ -12,7 +12,7 @@ namespace JwtAuth.LoginService.Test.Unit.ModulesTests.ServicesTests.TokenService
         [TestInitialize]
         public void Initialize()
         {
-            _service = new TokenService();
+            _service = new TokenService(null);
         }
 
         [TestMethod]

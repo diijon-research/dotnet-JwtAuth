@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,6 +9,17 @@ namespace JwtAuth.LoginService.Modules.Services
     public class TokenService
     {
         private static string Secret = "g3TkuNgOkSjmGW7yD1w/rI+Saqd1eAmxPid8VQcuJKa1DBz4w3oQyhas1uSm45XMVyW4RBOscbdGzirpfIMukQ==";
+        public readonly ILogger<TokenService> _logger;
+
+        public TokenService(ILogger<TokenService> logger)
+        {
+            _logger = logger;
+        }
+
+        public void LogMessage(string message)
+        {
+            _logger.LogInformation(message);
+        }
 
         public string GenerateToken(string username)
         {
@@ -15,7 +27,7 @@ namespace JwtAuth.LoginService.Modules.Services
             var securityKey = new SymmetricSecurityKey(key);
             var descriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] 
+                Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, username)
                 }),
@@ -23,7 +35,7 @@ namespace JwtAuth.LoginService.Modules.Services
                 SigningCredentials = new SigningCredentials(securityKey,
                 SecurityAlgorithms.HmacSha256Signature)
             };
-        
+
             var handler = new JwtSecurityTokenHandler();
             var token = handler.CreateJwtSecurityToken(descriptor);
             token.Payload["extraData"] = "foo";
@@ -79,5 +91,5 @@ namespace JwtAuth.LoginService.Modules.Services
                 return null;
             }
         }
-    } 
+    }
 }
