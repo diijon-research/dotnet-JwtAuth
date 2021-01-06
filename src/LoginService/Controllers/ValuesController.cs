@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JwtAuth.LoginService.Controllers
 {
-    [Route("v1/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {

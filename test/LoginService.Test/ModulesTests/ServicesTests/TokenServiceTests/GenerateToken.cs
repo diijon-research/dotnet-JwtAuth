@@ -1,4 +1,5 @@
 using System;
+using JwtAuth.LoginService.Modules.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JwtAuth.LoginService.Modules.Services;
 
@@ -21,7 +22,7 @@ namespace JwtAuth.LoginService.Test.Unit.ModulesTests.ServicesTests.TokenService
             // Arrange
 
             // Act
-            var actual = _service.GenerateToken("me@gmail.com");
+            var actual = _service.GenerateToken(new User {Username = "me@gmail.com"});
 
             // Assert
             Assert.IsNotNull(actual);

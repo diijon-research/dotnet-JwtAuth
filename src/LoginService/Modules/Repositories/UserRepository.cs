@@ -9,9 +9,17 @@ namespace JwtAuth.LoginService.Modules.Repositories
         public List<User> TestUsers { get; private set; }
         public UserRepository()
         {
-            TestUsers = new List<User>();
-            TestUsers.Add(new User() { Username = "Test1", Password  = "Pass1"});
-            TestUsers.Add(new User() { Username = "Test2", Password = "Pass2"});
+            TestUsers = new List<User>
+            {
+                new User
+                {
+                    Username = "Admin", Password = "Pass", UserRole = new[] {UserRole.ADMIN, UserRole.NORMAL}
+                },
+                new User
+                {
+                    Username = "User", Password = "Pass", UserRole = new[] {UserRole.NORMAL}
+                }
+            };
         }
         public User GetUser(string username)
         {
